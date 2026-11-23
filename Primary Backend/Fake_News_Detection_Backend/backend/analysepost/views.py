@@ -14,17 +14,9 @@ from django.conf import settings
 import time
 from .utils import generate_token
 from .utils import extract_mobile_number,verify_jwt,sentiment_analysis
-from nltk.corpus import stopwords
-import boto3
 import os
 import time
-from botocore.exceptions import BotoCoreError, NoCredentialsError
 from dotenv import load_dotenv
-from .FakeNewsDetector.main import FakeNewsDetector
-from .FakeNewsDetector.NewsChecker.news_checker import NewsChecker
-from .FakeNewsDetector.DeepFakeDetection.DeepfakeImageDetection.deepfake_image_detection import DeepFakeImageDetection
-from .FakeNewsDetector.DeepFakeDetection.DeepfakeVideoDetection.deepfake_video_detection import DeepFakeVideoDetection
-from .FakeNewsDetector.main import FakeNewsDetectorInVideo
 from dotenv import load_dotenv
 load_dotenv()
 def index(request):
@@ -175,6 +167,8 @@ def create_post(request):
     "content": data.get("content", ""),
     "urls": urls
     }
+    from .FakeNewsDetector.main import FakeNewsDetector
+
     model_response=FakeNewsDetector(
         title=dict["title"],
         content=dict["content"],
@@ -251,6 +245,8 @@ def search(request):
     
     text = request.GET.get('query', '')
     # print(text)
+    from nltk.corpus import stopwords
+
     stop_words = set(stopwords.words('english'))
     filtered_words = [word for word in text.split() if word.lower() not in stop_words]
 
@@ -295,6 +291,8 @@ def verify(request):
     print(title)
     urls = re.findall(r'(https?://\S+|ftp://\S+|www\.\S+)', content) 
     print(urls)
+    from .FakeNewsDetector.main import FakeNewsDetector
+
     model_response = FakeNewsDetector(
         title=title,
         content=content,
@@ -329,15 +327,6 @@ def get_fake_posts(request):
 
 load_dotenv()
 
-# Initialize S3 client
-s3_client = boto3.client(
-    's3',
-    region_name=os.getenv('AWS_REGION'),
-    aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
-    aws_secret_access_key=os.getenv('AWS_SECRET_KEY')
-)
-
-BUCKET_NAME = os.getenv('S3_BUCKET_NAME')
 @api_view(['POST'])
 def get_upload_url(request):
     # token=req.headers.get('Authorization',"")
@@ -358,15 +347,26 @@ def get_upload_url(request):
        
         key = f"uploads/{int(time.time())}-{file_name}"
 
+        import boto3
+
+        s3_client = boto3.client(
+            's3',
+            region_name=os.getenv('AWS_REGION'),
+            aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
+            aws_secret_access_key=os.getenv('AWS_SECRET_KEY')
+        )
+
+        bucket_name = os.getenv('S3_BUCKET_NAME')
+
         # Generate a pre-signed URL for S3 upload
         presigned_url = s3_client.generate_presigned_url(
             'put_object',
-            Params={'Bucket': BUCKET_NAME, 'Key': key, 'ContentType': file_type},
+            Params={'Bucket': bucket_name, 'Key': key, 'ContentType': file_type},
             ExpiresIn=300  # URL expires in 5 minutes
         )
 
         # Construct the public file URL
-        file_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{key}"
+        file_url = f"https://{bucket_name}.s3.amazonaws.com/{key}"
 
         return JsonResponse({'presignedUrl': presigned_url, 'fileUrl': file_url}, status=200)
 
@@ -398,8 +398,12 @@ def verify_media(request):
     # # print("file url:", file_url)
     # file_url1="https://factfury-file.s3.us-east-1.amazonaws.com/uploads/1742668996004-1742668995981-adhaar.jpg"
     if file_type=="image":
+        from .FakeNewsDetector.DeepFakeDetection.DeepfakeImageDetection.deepfake_image_detection import DeepFakeImageDetection
+
         res=DeepFakeImageDetection(file_name)
     else:
+        from .FakeNewsDetector.DeepFakeDetection.DeepfakeVideoDetection.deepfake_video_detection import DeepFakeVideoDetection
+
         res=DeepFakeVideoDetection(file_name)
         
     
@@ -421,6 +425,8 @@ def verify_youtube(request):
     # data=request.data
     youtube_url = request.GET.get('video_url', '')
     
+    from .FakeNewsDetector.main import FakeNewsDetectorInVideo
+
     res=FakeNewsDetectorInVideo(youtube_url)
     print(res)
     ans=json.dumps(res)
