@@ -84,17 +84,6 @@ export const Post = ({
     return content.match(regex) || [];
   };
 
-  const getScoreColor = (score: number) => {
-    if (score > 0.7) {
-      return 'bg-green-600';
-    } else if (score >= 0.4) {
-      return 'bg-yellow-500';
-    } else {
-      return 'bg-red-500';
-    }
-
-  };
-
   const getAuthenticityBadge = (authenticity: string) => {
     if (authenticity === "Real") {
       return { bg: "bg-green-50", text: "text-green-700", icon: <Check className="h-4 w-4 mr-1" /> };

@@ -5,11 +5,6 @@ import { useTrending } from '../hooks';
 import TrendingPostSkeleton from './TrendingPostSkeleton';
 // import { useTrending } from '../hooks';
 
-interface TrendingHashtag {
-  hashtag: string;
-  count: number;
-}
-
 export const TrendingPost: React.FC = () => {
   const navigate = useNavigate();
   const {loading,trending_hashtag}=useTrending();

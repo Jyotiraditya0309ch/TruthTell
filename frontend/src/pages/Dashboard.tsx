@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import { Post } from "../components/Post";
 import TrendingPost from "../components/Trending_post";
-import { PostStructure } from "../hooks";
 import PostSkeleton from "../components/PostSkeleton";
 import TrendingPostSkeleton from "../components/TrendingPostSkeleton";
 import { usePosts } from "../hooks";

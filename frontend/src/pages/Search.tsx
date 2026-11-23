@@ -25,7 +25,6 @@ export const Search = () => {
 
   const [post, setResults] = useState<PostStructure[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -100,7 +99,6 @@ export const Search = () => {
         // setResults(post);
       } catch (err) {
         console.error("Failed to fetch search results:", err);
-        setError("Failed to fetch search results. Please try again later.");
       } finally {
         setLoading(false);
       }
