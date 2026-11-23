@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+db.sqlite3
+node_modules/
+__pycache__/
+*.pyc
+.idea/
+.ipynb_checkpoints/
+.venv/
+venv/
+glove.6B.100d.txt
+lstm_model_weights.weights.h5
+deepfake_model.h5
+deepfake_video_detection.h5

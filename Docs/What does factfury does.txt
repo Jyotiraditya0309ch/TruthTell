@@ -1,0 +1,78 @@
+Greetings esteemed panelists, We are factfury. In this era of the Internet and AI, news is something every individual has the right to access truthfully. However, this power can be misused to spread misinformation.
+ Fake news may seem harmless to some, but it can seriously impact lives.
+
+Our solution Factfury is unified news platform for detecting fake news .
+
+So, What does factfury does:
+1) Authenticate text based news
+2) Deepfake detection
+3)Authenticate video based news
+
+Our models will take some time to give predictions hence we will show all the results in the end.
+
+Let's understand the details of each feature:
+Lets's post a fake news of Kunal Kamra being arrested by police and a true news of Book my show cancelling Kunal Kamra shows.
+
+We also have feature to publish news in 12 Indian languages.
+Here is a demo:
+2 sec pause
+
+Now , understanding the working behind the scenes
+ ### For authenticating text based news we are using Multimodal rather than relying one.It compromises of:
+1) News Checker:scrape  real time news articles using posted article.Compare the scraped news article and posted article using LLM to deciede whether same msg is being conveyed or not.
+2) Structure analyzer: Extract features such as grammatical errors,punctuation errors,no. Of hastags,no of urls and provide it to gradient boosting model to get result.
+3) Semantic Aanalyzer: Tokenize text,embed it through glove embeding,pass it through multi lstm to get results.
+4) Evidence verifier: Scraped the supported evidence if provided and compare it with published news artciles using LLM to get results.
+
+Here Semantic and structured analyzers are built from scratch,  others use built in llm features. 
+
+Now let's move on to Deepfake video detection:
+
+Now understanding working.
+It comprises of follwing components:
+1) Convolution2Plus1D: operate on relevant featues extracted from video.
+2) OpticalClassifier: pass each optical frame to Convlution 2D and aggreate the results for ah video.
+3) MaxPooling2D: Reduce the dimensions of image and extract relevant features.
+
+Final prediction is made using combining the fore said components.
+
+Next is Deepfake image detecion:
+It comprises of following components:
+1)Inception Layer: to extract features using kernel of different shape
+2) SkipConnectionLayer: providing the past input in order to develop the memory in model.
+
+The next in line is Authenticate video news.
+
+the working:
+Here we first transcribe the text from video and next ir follows same as authenticating text based news.
+
+This is our flowchart. All the responses from models will be displayed on interactive dashboard. 
+-----FLOWCHART------
+
+Here are the strctures of our implemented models.
+--- MODELS----
+
+
+
+Now, I will wrap up by  recalling some of the important features and same additional ones of our solution
+1. We have implemented text-based news authentication with exclusive multimodal functionality. 
+2. Deepfake video and image classification 
+3. Video based news authentication 
+4. Multiple language support for news
+5. Audio functionality to generate text
+6. Other features like search functionality for news, hashtag based display of news.
+
+
+
+Now let's see the results. 
+
+---Results -----
+
+
+Let's see future scope.
+--Futurescope---
+
+Let me conclude,  by saying
+-----CONCLUSION---
+
+Thanking you.

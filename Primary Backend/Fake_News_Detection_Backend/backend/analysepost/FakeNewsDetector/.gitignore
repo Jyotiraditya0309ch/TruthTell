@@ -1,0 +1,10 @@
+.env
+/SemanticAndStructuredAnalyzer/.ipynb_checkpoints
+/SemanticAndStructuredAnalyzer/LSTM_model/.ipynb_checkpoints
+/SemanticAndStructuredAnalyzer/MlModel/.ipynb_checkpoints
+/SemanticAndStructuredAnalyzer/Data/lstm_model_processed_data.csv
+/SemanticAndStructuredAnalyzer/Data/.ipynb_checkpoints
+/SemanticAndStructuredAnalyzer/Data/glove.6B.100d.txt
+/SemanticAndStructuredAnalyzer/Models/lstm_model.keras
+/SemanticAndStructuredAnalyzer/Models/lstm_model_weights.weights.h5
+/SemanticAndStructuredAnalyzer/Models/tokenizer.json
